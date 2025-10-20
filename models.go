@@ -101,6 +101,45 @@ func (l *Library) AddBook(year int, title, author string) *Book {
 	return newBook
 }
 
+func (l *Library) FindBookById(id int) (*Book, error) {
+	flag := false
+	for i := 0; i < len(l.Books); i++ {
+		if i == id-1 {
+			flag = true
+		}
+	}
+	if flag {
+		return l.Books[id-1], nil
+	}
+	return nil, fmt.Errorf("книга с ID %d не найдена", id)
+}
+
+func (l *Library) FindReaderById(id int) (*Reader, error) {
+	flag := false
+	for i := 0; i < len(l.Readers); i++ {
+		if i == id-1 {
+			flag = true
+		}
+	}
+	if flag {
+		return l.Readers[id-1], nil
+	}
+	return nil, fmt.Errorf("читатель с ID %d не найден", id)
+}
+
+func (l *Library) IssueBookToReader(bookId, readerId int) error {
+	book, err := l.FindBookById(bookId)
+	if book == nil {
+		return err
+	}
+	reader, err := l.FindReaderById(readerId)
+	if reader == nil {
+		return err
+	}
+	book.IssueBook(reader)
+	return nil
+}
+
 type Reader struct {
 	ID        int
 	FirstName string
