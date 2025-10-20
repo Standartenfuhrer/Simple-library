@@ -3,35 +3,18 @@ package main
 import "fmt"
 
 func main() {
-	user1 := Reader{
-		ID:        1,
-		FirstName: "Агунда",
-		LastName:  "Кокойты",
-		IsActive:  true,
-	}
+	fmt.Println("Запуск системы управления библиотекой...")
 
-	book1 := Book{
-		ID:       1,
-		Year:     1867,
-		Title:    "Война и мир",
-		Author:   "Лев Толстой",
-		IsIssued: false,
-	}
-	fmt.Println(user1)
-	fmt.Println(book1)
-	book1.IssueBook(&user1)
-	fmt.Println(book1)
-	book1.ReturnBook()
-	fmt.Println(book1)
-	user1.AssignBook(&book1)
+	myLibrary := &Library{}
 
-	fmt.Println("------------------------------------")
+	fmt.Println("\n--- Наполняем библиотеку ---")
+	myLibrary.AddReader("Тамерлан", "Джигкаев")
+	myLibrary.AddReader("Линда", "Элбакянц")
 
-	n := []Notifier{}
-	em := EmailNotifier{EmailAddress: "tamerlandzigkaev@gmail.com"}
-	sms := SMSNotifier{PhoneNumber: "+79890403016"}
-	n = append(n, em, sms)
-	for i := 0; i < len(n); i++ {
-		n[i].Notify("Ваша книга просрочена!")
-	}
+	myLibrary.AddBook(1984, "1984", "Джордж Оруэлл")
+	myLibrary.AddBook(1967, "Мастер и Маргарита", "Михаил Булгаков")
+
+	fmt.Println("\n--- Библиотека готова к работе ---")
+	fmt.Println("Количество читателей:", len(myLibrary.Readers))
+	fmt.Println("Количество книг:", len(myLibrary.Books))
 }

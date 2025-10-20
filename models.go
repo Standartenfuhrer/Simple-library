@@ -65,6 +65,42 @@ func (r *Reader) AssignBook(b *Book) {
 	fmt.Printf("Читатель %s %s взял книгу %s(%s %d)\n", r.FirstName, r.LastName, b.Title, b.Author, b.Year)
 }
 
+type Library struct {
+	Books   []*Book
+	Readers []*Reader
+
+	lastBookID   int
+	lastReaderID int
+}
+
+func (l *Library) AddReader(firstName, lastName string) *Reader {
+	l.lastReaderID++
+	newReader := &Reader{
+		ID:        l.lastReaderID,
+		FirstName: firstName,
+		LastName:  lastName,
+		IsActive:  true,
+	}
+	l.Readers = append(l.Readers, newReader)
+	fmt.Printf("Зарегистрирован новый читатель: %s\n", newReader)
+	return newReader
+}
+
+func (l *Library) AddBook(year int, title, author string) *Book {
+	l.lastBookID++
+
+	newBook := &Book{
+		ID:       l.lastBookID,
+		Year:     year,
+		Title:    title,
+		Author:   author,
+		IsIssued: false,
+	}
+	l.Books = append(l.Books, newBook)
+	fmt.Printf("Добавлена новая книга: %s\n", newBook)
+	return newBook
+}
+
 type Reader struct {
 	ID        int
 	FirstName string
