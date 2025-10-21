@@ -31,20 +31,13 @@ func main() {
 		fmt.Println("Статус книги после выдачи:", book)
 	}
 
-	//Попытка выдать несуществующую книгу
-	err = myLibrary.IssueBookToReader(99, 1)
-	if err != nil {
-		fmt.Println("Ожидаемая ошибка:", err)
-	}
-
 	//Тестирование возврата книги
 	test := myLibrary.ReturnBook(1)
 	if test != nil {
 		fmt.Println(test)
 	}
 
-	test = myLibrary.ReturnBook(1)
-	if test != nil {
-		fmt.Println(test)
+	if book != nil {
+		fmt.Println("Статус книги после возврата:", book)
 	}
 }

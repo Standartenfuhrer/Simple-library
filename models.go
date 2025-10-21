@@ -11,6 +11,10 @@ type Book struct {
 	ReaderId *int
 }
 
+func (r *Reader) AssignBook(b *Book) {
+	fmt.Printf("Читатель %s %s взял книгу %s(%s %d)\n", r.FirstName, r.LastName, b.Title, b.Author, b.Year)
+}
+
 func (r Reader) DisplayReader() {
 	fmt.Printf("Читатель: %s %s (ID: %d)(Status: %v)\n", r.FirstName, r.LastName, r.ID, r.IsActive)
 }
@@ -53,16 +57,12 @@ func (b *Book) IssueBook(r *Reader) {
 
 func (b *Book) ReturnBook() error {
 	if !b.IsIssued {
-		fmt.Errorf("книга '%s' и так в библиотеке", b.Title)
+		return fmt.Errorf("книга '%s' и так в библиотеке", b.Title)
 	} else {
 		b.IsIssued = false
 		b.ReaderId = nil
 	}
 	return nil
-}
-
-func (r *Reader) AssignBook(b *Book) {
-	fmt.Printf("Читатель %s %s взял книгу %s(%s %d)\n", r.FirstName, r.LastName, b.Title, b.Author, b.Year)
 }
 
 type Library struct {
