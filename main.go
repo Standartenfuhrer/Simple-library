@@ -37,4 +37,14 @@ func main() {
 		fmt.Println("Ожидаемая ошибка:", err)
 	}
 
+	//Тестирование возврата книги
+	test := myLibrary.ReturnBook(1)
+	if test != nil {
+		fmt.Println(test)
+	}
+
+	test = myLibrary.ReturnBook(1)
+	if test != nil {
+		fmt.Println(test)
+	}
 }

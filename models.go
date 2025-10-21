@@ -51,14 +51,14 @@ func (b *Book) IssueBook(r *Reader) {
 	}
 }
 
-func (b *Book) ReturnBook() {
+func (b *Book) ReturnBook() error {
 	if !b.IsIssued {
-		fmt.Println("Книга уже в библиотеке.")
+		fmt.Errorf("книга '%s' и так в библиотеке", b.Title)
 	} else {
 		b.IsIssued = false
 		b.ReaderId = nil
-		fmt.Println("Книга возвращена.")
 	}
+	return nil
 }
 
 func (r *Reader) AssignBook(b *Book) {
@@ -104,12 +104,12 @@ func (l *Library) AddBook(year int, title, author string) *Book {
 func (l *Library) FindBookById(id int) (*Book, error) {
 	flag := false
 	for i := 0; i < len(l.Books); i++ {
-		if i == id-1 {
+		if i == id {
 			flag = true
 		}
 	}
 	if flag {
-		return l.Books[id-1], nil
+		return l.Books[id], nil
 	}
 	return nil, fmt.Errorf("книга с ID %d не найдена", id)
 }
@@ -137,6 +137,18 @@ func (l *Library) IssueBookToReader(bookId, readerId int) error {
 		return err
 	}
 	book.IssueBook(reader)
+	return nil
+}
+
+func (l *Library) ReturnBook(bookId int) error {
+	book, err := l.FindBookById(bookId)
+	if err != nil {
+		return err
+	}
+	test := book.ReturnBook()
+	if test != nil {
+		return test
+	}
 	return nil
 }
 
