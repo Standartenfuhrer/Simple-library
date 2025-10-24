@@ -10,8 +10,18 @@ func main() {
 
 	fmt.Println("\n--- Наполняем библиотеку ---")
 	//Добавляем пользователей
-	myLibrary.AddReader("Тамерлан", "Джигкаев")
-	myLibrary.AddReader("Линда", "Элбакянц")
+	reader, err := myLibrary.AddReader("Тамерлан", "Джигкаев")
+	if err != nil{
+		fmt.Println(err)
+	} else {
+		fmt.Println("Зарегестрирован новый читатель:", reader)
+	}
+	reader, err = myLibrary.AddReader("Линда", "Элбакянц")
+	if err != nil{
+		fmt.Println(err)
+	} else {
+		fmt.Println("Зарегестрирован новый читатель:", reader)
+	}
 
 	//Добавляем пользователей
 	b, err := myLibrary.AddBook(1833, "Евгений Онегин", "Александр Пушкин")

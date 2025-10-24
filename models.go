@@ -78,7 +78,10 @@ type Library struct {
 }
 
 //Метод добавляющтй читателя в библиотеку
-func (l *Library) AddReader(firstName, lastName string) *Reader {
+func (l *Library) AddReader(firstName, lastName string) (*Reader, error) {
+	if firstName == "" || lastName == ""{
+		return nil, fmt.Errorf("Имя или фамилия не могут быть пустыми")
+	}
 	l.lastReaderID++
 	newReader := &Reader{
 		ID:        l.lastReaderID,
@@ -87,8 +90,7 @@ func (l *Library) AddReader(firstName, lastName string) *Reader {
 		IsActive:  true,
 	}
 	l.Readers = append(l.Readers, newReader)
-	fmt.Printf("Зарегистрирован новый читатель: %s\n", newReader)
-	return newReader
+	return newReader, nil
 }
 
 //Метод добавляющий книгу в библиотеку
