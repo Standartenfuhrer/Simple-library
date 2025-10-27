@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	//"github.com/Standartenfuhrer/simple-library/domain"
+	"github.com/Standartenfuhrer/simple-library/domain"
 	"github.com/Standartenfuhrer/simple-library/library"
 )
 
 func main() {
 	myLibrary := library.New()
+	book := &domain.Book{}
+	reader := &domain.Reader{}
 
 	reader, err := myLibrary.AddReader("Тамерлан", "Джигкаев")
 	if err != nil {
@@ -16,11 +18,11 @@ func main() {
 		fmt.Println("Зарегестрирован новый читатель:", reader)
 	}
 
-	b, err := myLibrary.AddBook(1833, "Егвений Онегин", "Александр Пушкин")
+	book, err = myLibrary.AddBook(1833, "Егвений Онегин", "Александр Пушкин")
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Printf("Книга (%v) успешно добавлена\n", b.Title)
+		fmt.Printf("Книга (%v) успешно добавлена\n", book.Title)
 	}
 
 	err = myLibrary.IssueBookToReader(1, 1)
