@@ -1,6 +1,94 @@
 package storage
 
+import (
+	"encoding/csv"
+	"fmt"
+	"os"
+	"strconv"
+	"github.com/Standartenfuhrer/simple-library/domain"
+)
+
 type Storable interface {
 	Save() error
 	Load() error
+}
+
+func SaveBooksToCSV(fileName string, books []domain.Book) error {
+	file, err := os.Create(fileName)
+	if err != nil {
+		return fmt.Errorf("не удалось создать файл %s: %w", fileName, err)
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	headers := []string{"ID", "Название", "Автор", "Год", "Используется", "ID читателя"}
+	if err := writer.Write(headers);err != nil {
+		return fmt.Errorf("не удалось записать заголовок: %w", err)
+	}
+
+	for _, book := range books{
+		record := []string{
+			strconv.Itoa(book.ID),
+			book.Title,
+			book.Author,
+			strconv.Itoa(book.Year),
+			strconv.FormatBool(book.IsIssued),
+			strconv.Itoa(*book.ReaderId),
+		}
+		if err := writer.Write(record); err != nil{
+			return fmt.Errorf("не удалось записать данные книг: %w", err)
+		}
+	}
+	return nil
+}
+
+func LoadBooksFromCSV(fileName string) ([]domain.Book, error){
+	file, err := os.Open(fileName)
+	if err != nil{
+		return nil, err
+	}
+	defer file.Close()
+
+	var books []domain.Book
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil{
+		return nil, err
+	}
+	for _, record := range records[1:]{
+		id, err := strconv.Atoi(record[0])
+		if err != nil{
+			return nil, fmt.Errorf("Не удалось сконвертировать ID %s", record[0])
+		}
+
+		year, err := strconv.Atoi(record[3])
+		if err != nil{
+			return nil, fmt.Errorf("Не удалось сконвертировать год %s", record[3])
+		}
+
+		issue, err := strconv.ParseBool(record[4])
+		if err != nil{
+			return nil, fmt.Errorf("Не удалось сконвертировать использование книги %s", record[4])
+		}
+
+		readerid, err := strconv.Atoi(record[5])
+		if err != nil{
+			return nil, fmt.Errorf("Не удалось сконввертировать ID читателя %s", record[5])
+		}
+
+		book := domain.Book{
+			ID: id,
+			Title: record[1],
+			Author: record[2],
+			Year: year,
+			IsIssued: issue,
+			ReaderId: &readerid,
+		}
+
+		books = append(books, book)
+	}
+	return books, nil
 }

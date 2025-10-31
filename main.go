@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/Standartenfuhrer/simple-library/domain"
 	"github.com/Standartenfuhrer/simple-library/library"
+	"github.com/Standartenfuhrer/simple-library/storage"
 )
 
 func main() {
@@ -31,4 +33,6 @@ func main() {
 	} else {
 		fmt.Println(myLibrary.Books[0])
 	}
+
+	err = storage.SaveBooksToCSV("test.csv", )
 }
