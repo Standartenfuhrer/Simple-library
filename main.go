@@ -27,6 +27,13 @@ func main() {
 		fmt.Printf("Книга (%v) успешно добавлена\n", book.Title)
 	}
 
+	book, err = myLibrary.AddBook(1967, "Сто лет одиночества", "Габриэль Гарсиа Маркес")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Printf("Книга (%v) успешно добавлена\n", book.Title)
+	}
+
 	err = myLibrary.IssueBookToReader(1, 1)
 	if err != nil {
 		fmt.Println(err)
@@ -34,5 +41,24 @@ func main() {
 		fmt.Println(myLibrary.Books[0])
 	}
 
-	err = storage.SaveBooksToCSV("test.csv", )
+	err = storage.SaveBooksToCSV("test.csv", myLibrary.Books)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	book, err = myLibrary.AddBook(1925, "Великий Гэтсби", "Фрэнсис Скотт Фицджеральд")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Printf("Книга (%v) успешно добавлена\n", book.Title)
+	}
+
+	fmt.Println(myLibrary.Books)
+
+	myLibrary.Books, err = storage.LoadBooksFromCSV("test.csv")
+	if err != nil{
+		fmt.Println(err)
+	} else {
+		fmt.Println(myLibrary.Books)
+	}
 }
