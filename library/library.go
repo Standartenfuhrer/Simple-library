@@ -2,10 +2,11 @@ package library
 
 import (
 	"fmt"
+
 	"github.com/Standartenfuhrer/simple-library/domain"
 )
 
-//Структура библиотеки
+// Структура библиотеки
 type Library struct {
 	Books   []*domain.Book
 	Readers []*domain.Reader
@@ -14,14 +15,14 @@ type Library struct {
 	lastReaderID int
 }
 
-func New() *Library{
-	return &Library{}
+func New() *Library {
+	return &Library{Books: []*domain.Book{}, Readers: []*domain.Reader{}}
 }
 
-//Метод добавляющтй читателя в библиотеку
+// Метод добавляющтй читателя в библиотеку
 func (l *Library) AddReader(firstName, lastName string) (*domain.Reader, error) {
-	if firstName == "" || lastName == ""{
-		return nil, fmt.Errorf("Имя или фамилия не могут быть пустыми")
+	if firstName == "" || lastName == "" {
+		return nil, fmt.Errorf("имя или фамилия не могут быть пустыми")
 	}
 	l.lastReaderID++
 	newReader := &domain.Reader{
@@ -34,11 +35,11 @@ func (l *Library) AddReader(firstName, lastName string) (*domain.Reader, error) 
 	return newReader, nil
 }
 
-//Метод добавляющий книгу в библиотеку
+// Метод добавляющий книгу в библиотеку
 func (l *Library) AddBook(year int, title, author string) (*domain.Book, error) {
 	for _, value := range l.Books {
 		if value.Author == author && value.Title == title {
-			return nil, fmt.Errorf("Такая книга уже есть в библиотеке.")
+			return nil, fmt.Errorf("такая книга уже есть в библиотеке")
 		}
 	}
 	l.lastBookID++
@@ -53,7 +54,7 @@ func (l *Library) AddBook(year int, title, author string) (*domain.Book, error) 
 	return newBook, nil
 }
 
-//Метод ищущий читателя по ID
+// Метод ищущий читателя по ID
 func (l *Library) FindBookById(id int) (*domain.Book, error) {
 	flag := false
 	for i := 0; i < len(l.Books); i++ {
@@ -67,7 +68,7 @@ func (l *Library) FindBookById(id int) (*domain.Book, error) {
 	return nil, fmt.Errorf("книга с ID %d не найдена", id)
 }
 
-//Метод ищущий книгу по ID
+// Метод ищущий книгу по ID
 func (l *Library) FindReaderById(id int) (*domain.Reader, error) {
 	flag := false
 	for i := 0; i < len(l.Readers); i++ {
@@ -81,7 +82,7 @@ func (l *Library) FindReaderById(id int) (*domain.Reader, error) {
 	return nil, fmt.Errorf("читатель с ID %d не найден", id)
 }
 
-//Метод для выдачи книги читателю
+// Метод для выдачи книги читателю
 func (l *Library) IssueBookToReader(bookId, readerId int) error {
 	book, err := l.FindBookById(bookId)
 	if book == nil {
@@ -92,13 +93,13 @@ func (l *Library) IssueBookToReader(bookId, readerId int) error {
 		return err
 	}
 	err = book.IssueBook(reader)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-//Метод возвращающий книгу по ID
+// Метод возвращающий книгу по ID
 func (l *Library) ReturnBook(bookId int) error {
 	book, err := l.FindBookById(bookId)
 	if err != nil {

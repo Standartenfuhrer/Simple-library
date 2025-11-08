@@ -12,8 +12,6 @@ import (
 func main() {
 	//Создаем пустые экземпляры наших структур
 	myLibrary := library.New()
-	//book := &domain.Book{}
-	//reader := &domain.Reader{}
 
 	//Создаем пустую ошибку
 	var err error
@@ -39,6 +37,7 @@ func main() {
 		fmt.Println(err)
 	}
 
+	//Запускаем наш проект
 	cli.Run(myLibrary)
 
 }
