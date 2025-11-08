@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	//"github.com/Standartenfuhrer/simple-library/domain"
+	"github.com/Standartenfuhrer/simple-library/cmd/cli"
 	"github.com/Standartenfuhrer/simple-library/library"
 	"github.com/Standartenfuhrer/simple-library/storage"
 )
@@ -38,16 +39,6 @@ func main() {
 		fmt.Println(err)
 	}
 
-	//Сохраняем список книг в CSV файл
-	err = storage.SaveBooksToCSV("books.csv", myLibrary.Books)
-	if err != nil {
-		fmt.Println(err)
-	}
+	cli.Run(myLibrary)
 
-	//Сохраняем список читателей в CSV файл
-	err = storage.SaveReadersToCSV("readers.csv", myLibrary.Readers)
-	if err != nil{
-		fmt.Println(err)
-	}
-	//sss
 }
