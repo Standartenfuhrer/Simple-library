@@ -53,10 +53,10 @@ func (r *Reader) Deactivate() error{
 	return nil
 }
 
-//Метод проверяющий используется ли книга
+//Метод выдающий книгу читателю
 func (b *Book) IssueBook(r *Reader) error {
 	if b.IsIssued {
-		return fmt.Errorf("Книга уже используется.")
+		return fmt.Errorf("книга уже используется")
 	} else {
 		b.IsIssued = true
 		b.ReaderId = &r.ID
