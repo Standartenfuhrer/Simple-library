@@ -26,7 +26,7 @@ func main() {
 
 // Наш первый обработчик
 // func homeHandler(w http.ResponseWriter, r *http.Request) {
-// 	w.Write([]byte("Hello from Library"))
+// 	w.Write([]byte("Hello from Library"))ss
 // }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
